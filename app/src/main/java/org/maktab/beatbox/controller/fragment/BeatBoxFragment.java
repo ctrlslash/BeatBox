@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.beatbox.R;
+import org.maktab.beatbox.databinding.FragmentBeatBoxBinding;
+import org.maktab.beatbox.databinding.ListItemSoundBinding;
 import org.maktab.beatbox.model.Sound;
 import org.maktab.beatbox.repository.BeatBoxRepository;
 import org.maktab.beatbox.utils.SoundUtils;
@@ -23,7 +26,8 @@ public class BeatBoxFragment extends Fragment {
 
     public static final int SPAN_COUNT = 3;
     public static final String TAG = "BBF";
-    private RecyclerView mRecyclerView;
+
+    private FragmentBeatBoxBinding mBeatBoxBinding;
     private BeatBoxRepository mRepository;
 
     public BeatBoxFragment() {
@@ -51,13 +55,16 @@ public class BeatBoxFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_beat_box, container, false);
+        mBeatBoxBinding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_beat_box,
+                container,
+                false);
 
         Log.d(TAG, "onCreteView");
-        findViews(view);
         initViews();
 
-        return view;
+        return mBeatBoxBinding.getRoot();
     }
 
     @Override
@@ -75,45 +82,38 @@ public class BeatBoxFragment extends Fragment {
         mRepository.getSoundPool().release();
     }
 
-    private void findViews(View view) {
-        mRecyclerView = view.findViewById(R.id.recycler_view_beat_box);
-    }
-
     private void initViews() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
+        mBeatBoxBinding.recyclerViewBeatBox
+                .setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
         initUI();
     }
 
     private void initUI() {
         List<Sound> sounds = mRepository.getSounds();
         SoundAdapter adapter = new SoundAdapter(sounds);
-        mRecyclerView.setAdapter(adapter);
+        mBeatBoxBinding.recyclerViewBeatBox.setAdapter(adapter);
     }
 
-    private class SoundHolder extends RecyclerView.ViewHolder {
+    public class SoundHolder extends RecyclerView.ViewHolder {
 
-        private Button mButtonSound;
-        private Sound mSound;
+        private ListItemSoundBinding mSoundBinding;
 
-        public SoundHolder(@NonNull View itemView) {
-            super(itemView);
+        public SoundHolder(ListItemSoundBinding soundBinding) {
+            super(soundBinding.getRoot());
+            this.mSoundBinding = soundBinding;
+        }
 
-            mButtonSound = itemView.findViewById(R.id.list_item_button_sound);
-            mButtonSound.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        SoundUtils.play(mRepository.getSoundPool(), mSound);
-                    } catch (Exception e) {
-                        Log.e(BeatBoxRepository.TAG, e.getMessage(), e);
-                    }
-                }
-            });
+        public void playSound() {
+            try {
+                SoundUtils.play(mRepository.getSoundPool(), mSoundBinding.getSound());
+            } catch (Exception e) {
+                Log.e(BeatBoxRepository.TAG, e.getMessage(), e);
+            }
         }
 
         public void bindSound(Sound sound) {
-            mSound = sound;
-            mButtonSound.setText(mSound.getName());
+            mSoundBinding.setSound(sound);
+            mSoundBinding.setSoundHolder(this);
         }
     }
 
@@ -136,10 +136,15 @@ public class BeatBoxFragment extends Fragment {
         @NonNull
         @Override
         public SoundHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity())
-                    .inflate(R.layout.list_item_sound, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            ListItemSoundBinding soundBinding =
+                    DataBindingUtil.inflate(
+                            inflater,
+                            R.layout.list_item_sound,
+                            parent,
+                            false);
 
-            return new SoundHolder(view);
+            return new SoundHolder(soundBinding);
         }
 
         @Override

@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_item_button_sound"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_margin="4dp">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</Button>
+    <data>
+        <variable
+            name="sound"
+            type="org.maktab.beatbox.model.Sound" />
+        <variable
+            name="soundHolder"
+            type="org.maktab.beatbox.controller.fragment.BeatBoxFragment.SoundHolder" />
+    </data>
+
+    <Button
+        android:id="@+id/list_item_button_sound"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="4dp"
+        android:text="@{sound.name}"
+        android:onClick="@{()->soundHolder.playSound()}">
+
+    </Button>
+</layout>

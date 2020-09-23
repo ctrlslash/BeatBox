@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import org.maktab.beatbox.R;
+import org.maktab.beatbox.databinding.ActivitySingleFragmentBinding;
 
 /**
  * If we have activity that has only one fullscreen fragement we must
@@ -17,6 +19,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     public static final String FRAGMENT_TAG = "FragmentActivity";
 
+    private ActivitySingleFragmentBinding mBinding;
+
     public abstract Fragment createFragment();
 
     @LayoutRes
@@ -25,7 +29,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
+        mBinding = DataBindingUtil.setContentView(this, getLayoutResId());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

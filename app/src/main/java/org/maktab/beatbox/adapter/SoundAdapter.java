@@ -73,6 +73,9 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
         public void bindSound(Sound sound) {
             mSoundBinding.getSoundViewModel().setSound(sound);
 
+            // bind the variable to the layout right now.
+            mSoundBinding.executePendingBindings();
+
             /*mSoundBinding.setSound(sound);
             mSoundBinding.setSoundHolder(this);*/
         }

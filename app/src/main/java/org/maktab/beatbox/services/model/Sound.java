@@ -1,4 +1,4 @@
-package org.maktab.beatbox.model;
+package org.maktab.beatbox.services.model;
 
 import java.io.File;
 

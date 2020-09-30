@@ -1,4 +1,4 @@
-package org.maktab.beatbox.repository;
+package org.maktab.beatbox.services.repository;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -7,7 +7,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
 
-import org.maktab.beatbox.model.Sound;
+import org.maktab.beatbox.services.model.Sound;
 
 import java.io.File;
 import java.io.IOException;

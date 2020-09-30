@@ -7,7 +7,7 @@
         android:id="@+id/recycler_view_beat_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".controller.fragment.BeatBoxFragment"
+        tools:context=".view.fragment.BeatBoxFragment"
         tools:listitem="@layout/list_item_sound">
 
     </androidx.recyclerview.widget.RecyclerView>

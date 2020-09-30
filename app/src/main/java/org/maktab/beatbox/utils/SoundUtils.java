@@ -2,7 +2,7 @@ package org.maktab.beatbox.utils;
 
 import android.media.SoundPool;
 
-import org.maktab.beatbox.model.Sound;
+import org.maktab.beatbox.services.model.Sound;
 
 public class SoundUtils {
 

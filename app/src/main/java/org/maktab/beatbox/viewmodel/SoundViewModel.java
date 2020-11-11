@@ -40,7 +40,7 @@ public class SoundViewModel extends BaseObservable {
 
     public void onPlayButtonClicked() {
         try {
-            mRepository.play(new Sound("path/sound.mp3"));
+            mRepository.play(mSound);
         } catch (Exception e) {
             Log.e(BeatBoxRepository.TAG, e.getMessage(), e);
         }

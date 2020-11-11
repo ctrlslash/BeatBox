@@ -8,10 +8,10 @@ import androidx.databinding.Bindable;
 
 import org.maktab.beatbox.services.model.Sound;
 import org.maktab.beatbox.services.repository.BeatBoxRepository;
-import org.maktab.beatbox.utils.SoundUtils;
 
 public class SoundViewModel extends BaseObservable {
 
+    //dependency
     private BeatBoxRepository mRepository;
     private Sound mSound;
 
@@ -25,6 +25,10 @@ public class SoundViewModel extends BaseObservable {
         notifyChange();
     }
 
+    public SoundViewModel(BeatBoxRepository repository) {
+        mRepository = repository;
+    }
+
     public SoundViewModel(Context context) {
         mRepository = BeatBoxRepository.getInstance(context);
     }
@@ -34,9 +38,9 @@ public class SoundViewModel extends BaseObservable {
         return mSound.getName();
     }
 
-    public void playSound() {
+    public void onPlayButtonClicked() {
         try {
-            SoundUtils.play(mRepository.getSoundPool(), mSound);
+            mRepository.play(new Sound("path/sound.mp3"));
         } catch (Exception e) {
             Log.e(BeatBoxRepository.TAG, e.getMessage(), e);
         }

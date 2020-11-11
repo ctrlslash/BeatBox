@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:layout_margin="4dp"
         android:text="@{soundViewModel.title}"
-        android:onClick="@{()->soundViewModel.playSound()}">
+        android:onClick="@{()->soundViewModel.onPlayButtonClicked()}">
 
     </Button>
 </layout>

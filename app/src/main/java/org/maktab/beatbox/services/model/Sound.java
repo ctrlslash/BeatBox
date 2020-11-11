@@ -39,7 +39,7 @@ public class Sound {
     }
 
     private String extractFileName(String assetPath) {
-        String[] segments = assetPath.split(File.separator);
+        String[] segments = assetPath.split("/");
         String fileNameWithExt = segments[segments.length - 1];
         return fileNameWithExt.substring(0, fileNameWithExt.lastIndexOf("."));
     }

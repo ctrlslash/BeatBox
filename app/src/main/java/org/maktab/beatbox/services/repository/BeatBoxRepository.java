@@ -41,15 +41,15 @@ public class BeatBoxRepository {
         sInstance = instance;
     }
 
-    public List<Sound> getSounds() {
+    public synchronized List<Sound> getSounds() {
         return mSounds;
     }
 
-    public void setSounds(List<Sound> sounds) {
+    public synchronized void setSounds(List<Sound> sounds) {
         mSounds = sounds;
     }
 
-    public SoundPool getSoundPool() {
+    public synchronized SoundPool getSoundPool() {
         return mSoundPool;
     }
 
@@ -76,5 +76,22 @@ public class BeatBoxRepository {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
+    }
+
+    public void play(Sound sound) throws Exception {
+        //check if not loaded then return
+        if (sound.getSoundId() == null)
+            return;
+
+        int streamId = mSoundPool.play(
+                sound.getSoundId(),
+                1.0f,
+                1.0f,
+                0,
+                0,
+                1.0f);
+
+        if (streamId == 0)
+            throw new Exception("This sound can not be played!");
     }
 }
